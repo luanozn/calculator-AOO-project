@@ -58,5 +58,57 @@ public class HelloController {
     @FXML
     private Button nineButton;
 
-    
+    @FXML
+    private void onClearButtonClick(){
+
+    }
+    @FXML
+    private void onZeroButtonClick(){
+
+    }
+
+    @FXML
+    private void onOneButtonClick(){
+
+    }
+
+    @FXML
+    private void onTwoButtonClick(){
+
+    }
+
+    @FXML
+    private void onThreeButtonClick(){
+
+    }
+
+    @FXML
+    private void onFourButtonClick(){
+
+    }
+
+    @FXML
+    private void onFiveButtonClick(){
+
+    }
+
+    @FXML
+    private void onSixButtonClick(){
+
+    }
+
+    @FXML
+    private void onSevenButtonClick(){
+
+    }
+
+    @FXML
+    private void onEightButtonClick(){
+
+    }
+
+    @FXML
+    private void onNineButtonClick(){
+
+    }
 }
