@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 
 public class CalculatorController {
 
-    private String number = "";
     private Double operation = 0.0;
     private boolean resultButtonUsed = false;
     private char previouslyDoneOperation = '=';
@@ -65,49 +64,37 @@ public class CalculatorController {
     @FXML
     private void onResultButtonClick() {
         try {
-            switch (previouslyDoneOperation) {
-                case '+':
-                    operation += Integer.parseInt(operationField.getText());
-                    break;
-                case '-':
-                    operation -= Integer.parseInt(operationField.getText());
-                    break;
-                case '*':
-                    operation *= Integer.parseInt(operationField.getText());
-                    break;
-                case '/':
-                    operation /= Integer.parseInt(operationField.getText());
-                    break;
-                case '=':
-                    operation = Double.parseDouble(operationField.getText());
-            }
+            doPreviouslyDoneOperation();
         } catch (NumberFormatException ignored) {
         }
 
         operationField.setText(String.valueOf(operation));
-        number = "";
         resultButtonUsed = true;
         previouslyDoneOperation = '=';
     }
 
     @FXML
     private void onClearButtonClick() {
-        number = "";
         operation = 0.0;
-        operationField.setText(number);
+        operationField.setText("");
+        previouslyDoneOperation = '=';
+        resultButtonUsed = false;
+
     }
 
     @FXML
     private void onAdditionButtonClick() {
+
         if (!resultButtonUsed) {
             if (!operationField.getText().equals("")) {
                 if (previouslyDoneOperation != '=')
                     doPreviouslyDoneOperation();
                 else operation += Integer.parseInt(operationField.getText());
             }
-        }
+        }else
+            operationField.setText("");
+
         System.out.println(operation);
-        number = "";
         operationField.setText("");
         previouslyDoneOperation = '+';
         resultButtonUsed = false;
@@ -117,22 +104,23 @@ public class CalculatorController {
     private void onSubtractionButtonClick() {
         if (!resultButtonUsed) {
             if (!operationField.getText().equals("")) {
-                if (previouslyDoneOperation != '=' )
+                if (previouslyDoneOperation != '=')
                     doPreviouslyDoneOperation();
                 else
-                    operation -= Integer.parseInt(operationField.getText());
+                    if(Integer.parseInt(operationField.getText()) < 0 || operation == 0)
+                        operation += Integer.parseInt(operationField.getText());
+                    else
+                        operation -= Integer.parseInt(operationField.getText());
 
                 System.out.println(operation);
-                number = "";
-                operationField.setText("");
-                previouslyDoneOperation = '-';
-                resultButtonUsed = false;
 
-            }else if(!operationField.getText().equals("-")){
-                number += "-";
-                operationField.setText(number);
             }
-        }
+        }else
+            operationField.setText("");
+
+        operationField.setText("");
+        previouslyDoneOperation = '-';
+        resultButtonUsed = false;
     }
 
     @FXML
@@ -143,9 +131,9 @@ public class CalculatorController {
                     doPreviouslyDoneOperation();
                 else operation /= Integer.parseInt(operationField.getText());
             }
-        }
+        }else
+            operationField.setText("");
         System.out.println(operation);
-        number = "";
         operationField.setText("");
         previouslyDoneOperation = '/';
         resultButtonUsed = false;
@@ -160,9 +148,10 @@ public class CalculatorController {
                 else
                     operation *= Integer.parseInt(operationField.getText());
             }
-        }
+        }else
+            operationField.setText("");
+        
         System.out.println(operation);
-        number = "";
         operationField.setText("");
         previouslyDoneOperation = '*';
         resultButtonUsed = false;
@@ -170,53 +159,53 @@ public class CalculatorController {
 
     @FXML
     private void onZeroButtonClick() {
-        if (number.length() != 0)
-            operationField.setText(number += "0");
+        if (operationField.getText().length() != 0)
+            operationField.setText(operationField.getText() + "0");
     }
 
     @FXML
     private void onOneButtonClick() {
-        operationField.setText(number += "1");
+        operationField.setText(operationField.getText() + "1");
     }
 
     @FXML
     private void onTwoButtonClick() {
-        operationField.setText(number += "2");
+        operationField.setText(operationField.getText() + "2");
     }
 
     @FXML
     private void onThreeButtonClick() {
-        operationField.setText(number += "3");
+        operationField.setText(operationField.getText() + "3");
     }
 
     @FXML
     private void onFourButtonClick() {
-        operationField.setText(number += "4");
+        operationField.setText(operationField.getText() + "4");
     }
 
     @FXML
     private void onFiveButtonClick() {
-        operationField.setText(number += "5");
+        operationField.setText(operationField.getText() + "5");
     }
 
     @FXML
     private void onSixButtonClick() {
-        operationField.setText(number += "6");
+        operationField.setText(operationField.getText() + "6");
     }
 
     @FXML
     private void onSevenButtonClick() {
-        operationField.setText(number += "7");
+        operationField.setText(operationField.getText() + "7");
     }
 
     @FXML
     private void onEightButtonClick() {
-        operationField.setText(number += "8");
+        operationField.setText(operationField.getText() + "8");
     }
 
     @FXML
     private void onNineButtonClick() {
-        operationField.setText(number += "9");
+        operationField.setText(operationField.getText() + "9");
     }
 
     private void doPreviouslyDoneOperation() {
@@ -225,7 +214,10 @@ public class CalculatorController {
                 operation += Integer.parseInt(operationField.getText());
                 break;
             case '-':
-                operation -= Integer.parseInt(operationField.getText());
+                if(Integer.parseInt(operationField.getText()) < 0)
+                    operation += Integer.parseInt(operationField.getText());
+                else
+                    operation -= Integer.parseInt(operationField.getText());
                 break;
             case '*':
                 operation *= Integer.parseInt(operationField.getText());
