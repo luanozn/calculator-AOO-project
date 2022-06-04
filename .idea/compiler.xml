@@ -9,5 +9,8 @@
         <module name="calculator-AOO-project" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="calculator-AOO-project" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

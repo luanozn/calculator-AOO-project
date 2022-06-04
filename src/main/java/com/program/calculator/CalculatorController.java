@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.util.Arrays;
+
 public class CalculatorController {
 
     private Double operation = 0.0;
@@ -15,6 +17,12 @@ public class CalculatorController {
 
     @FXML
     private Button clearButton;
+
+    @FXML
+    private Button pointButton;
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private Button divisionButton;
@@ -83,13 +91,25 @@ public class CalculatorController {
     }
 
     @FXML
+    private void onDeleteButtonClick(){
+        if(previouslyDoneOperation == '=')
+            operationField.setText("");
+        else if(operationField.getText().length() > 0){
+            StringBuilder fieldContent = new StringBuilder(operationField.getText());
+            fieldContent.deleteCharAt(fieldContent.length()-1);
+            operationField.setText(fieldContent.toString());
+        }
+    }
+
+
+    @FXML
     private void onAdditionButtonClick() {
 
         if (!resultButtonUsed) {
             if (!operationField.getText().equals("")) {
                 if (previouslyDoneOperation != '=')
                     doPreviouslyDoneOperation();
-                else operation += Integer.parseInt(operationField.getText());
+                else operation += Double.parseDouble(operationField.getText());
             }
         }else
             operationField.setText("");
@@ -108,9 +128,9 @@ public class CalculatorController {
                     doPreviouslyDoneOperation();
                 else
                     if(Integer.parseInt(operationField.getText()) < 0 || operation == 0)
-                        operation += Integer.parseInt(operationField.getText());
+                        operation += Double.parseDouble(operationField.getText());
                     else
-                        operation -= Integer.parseInt(operationField.getText());
+                        operation -= Double.parseDouble(operationField.getText());
 
                 System.out.println(operation);
 
@@ -129,7 +149,7 @@ public class CalculatorController {
             if (!operationField.getText().equals("")) {
                 if (previouslyDoneOperation != '=')
                     doPreviouslyDoneOperation();
-                else operation /= Integer.parseInt(operationField.getText());
+                else operation /= Double.parseDouble(operationField.getText());
             }
         }else
             operationField.setText("");
@@ -146,7 +166,7 @@ public class CalculatorController {
                 if (previouslyDoneOperation != '=')
                     doPreviouslyDoneOperation();
                 else
-                    operation *= Integer.parseInt(operationField.getText());
+                    operation *= Double.parseDouble(operationField.getText());
             }
         }else
             operationField.setText("");
@@ -157,6 +177,14 @@ public class CalculatorController {
         resultButtonUsed = false;
     }
 
+
+    @FXML
+    private void onPointButtonClick(){
+        if(operationField.getText().length() == 0)
+            operationField.setText("0.");
+        else if(!operationField.getText().contains("."))
+            operationField.setText(operationField.getText() + ".");
+    }
     @FXML
     private void onZeroButtonClick() {
         if (operationField.getText().length() != 0)
@@ -211,19 +239,19 @@ public class CalculatorController {
     private void doPreviouslyDoneOperation() {
         switch (previouslyDoneOperation) {
             case '+':
-                operation += Integer.parseInt(operationField.getText());
+                operation += Double.parseDouble(operationField.getText());
                 break;
             case '-':
-                if(Integer.parseInt(operationField.getText()) < 0)
-                    operation += Integer.parseInt(operationField.getText());
+                if(Double.parseDouble(operationField.getText()) < 0)
+                    operation += Double.parseDouble(operationField.getText());
                 else
-                    operation -= Integer.parseInt(operationField.getText());
+                    operation -= Double.parseDouble(operationField.getText());
                 break;
             case '*':
-                operation *= Integer.parseInt(operationField.getText());
+                operation *= Double.parseDouble(operationField.getText());
                 break;
             case '/':
-                operation /= Integer.parseInt(operationField.getText());
+                operation /= Double.parseDouble(operationField.getText());
                 break;
             case '=':
                 operation = Double.parseDouble(operationField.getText());
